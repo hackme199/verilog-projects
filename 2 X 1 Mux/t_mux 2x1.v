@@ -1,0 +1,21 @@
+module t_mux_2_x_1;
+    reg t_A,t_B,t_select;
+    wire t_m_out;
+    parameter stop_time = 50;
+    mux_2_x_1 M1(t_A,t_B,t_select,t_m_out);//module instantiation
+
+    initial #stop_time $finish;//stop watch
+
+    initial begin//stimulus
+        t_select = 1;t_A=0;t_B=1;
+        #10 t_A=1;t_B=0;
+        #10 t_select = 0;t_A=0;t_B=1;
+        t_select = 0;t_A=1;t_B=0;
+    end
+
+    initial begin
+        $monitor (
+            "time = ", $time,,
+            "t_select = %b | t_A = %b | t_B = %b | t_m_out = %b",t_select, t_A,t_B,t_m_out);
+    end
+endmodule
